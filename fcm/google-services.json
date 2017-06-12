@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "799439320481",
+    "firebase_url": "https://findandgo-9ff56.firebaseio.com",
+    "project_id": "findandgo-9ff56",
+    "storage_bucket": "findandgo-9ff56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799439320481:android:4d3b532ffac44e62",
+        "android_client_info": {
+          "package_name": "com.gmonetix.findandgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799439320481-35ohhn2mjs0g5qvmpn9351is4gkqf22u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9KAKO0kZAg4tg8bp3c59-ct1QVwAi4ak"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

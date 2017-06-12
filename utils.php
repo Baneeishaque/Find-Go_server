@@ -60,10 +60,59 @@ class utils
         $sql = "UPDATE accounts SET user_latitude = '" . $user_lat . "', user_longitude = '" . $user_long . "' WHERE phone_number = '" . $number . "';";
         $result = mysqli_query($con, $sql);
         if ($result) {
+            //TODO : check result of FCM Action
+            $this->sendFCMTopic($number, $user_lat, $user_long);
             return true;
         } else {
             return false;
         }
+    }
+
+    function sendFCMTopic($number, $user_lat, $user_long)
+    {
+        $API_ACCESS_KEY = 'AAAAuiJL9aE:APA91bFnVKMmKIJt5jEp9DFuY7dUFRSO1YSCr3tqH6yXCkk0qOBHa7XT763OjC-R8aY-FgSK4l569UiOYRXF2a9k8tTm_fQsMIJkRSTQsJFCBonzIo4fZZXwIshxoEasKZhP5OsD0bUA';
+        #API access key from Google API's Console
+        define('API_ACCESS_KEY', $API_ACCESS_KEY);
+
+        #prep the bundle
+        $msg = array
+        (
+            'body' => 'Location changed to (' . $user_lat . ',' . $user_long . ')',
+            'title' => 'Location change for ' . $number,
+            'icon' => 'myicon',/*Default Icon*/
+            'sound' => 'mySound',/*Default sound*/
+            'user_latitude' => $user_lat,
+            'user_longitude' => $user_long,
+            'phone_number' => $number
+        );
+
+        $fields = array
+        (
+            'to' => '/topics/location',
+            'notification' => $msg
+        );
+
+
+        $headers = array
+        (
+            'Authorization: key=' . API_ACCESS_KEY,
+            'Content-Type: application/json'
+        );
+
+        #Send Reponse To FireBase Server
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        #Echo Result Of FireBase Server
+        return $result;
+
     }
 
     /*function getUsersInsideLocation($con,$radius, $currentLat, $currentLong) {
